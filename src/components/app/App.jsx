@@ -1,26 +1,31 @@
 import AppHeader from '../appHeader/AppHeader';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
-import { MainPage, ComicsPage } from '../pages';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import { MainPage, ComicsPage, NoMatch } from '../pages';
 
 const App = () => {
+	const location = useLocation();
+	const knownPaths = ['/', '/comics'];
+
 	return (
-		<BrowserRouter>
-			<div className='app'>
-				<AppHeader />
-				<main>
-					<Routes>
-						<Route
-							path='/'
-							element={<MainPage />}
-						/>
-						<Route
-							path='/comics'
-							element={<ComicsPage />}
-						/>
-					</Routes>
-				</main>
-			</div>
-		</BrowserRouter>
+		<div className='app'>
+			{knownPaths.includes(location.pathname) && <AppHeader />}
+			<main style={{ position: 'relative' }}>
+				<Routes>
+					<Route
+						path='/'
+						element={<MainPage />}
+					/>
+					<Route
+						path='/comics'
+						element={<ComicsPage />}
+					/>
+					<Route
+						path='*'
+						element={<NoMatch />}
+					/>
+				</Routes>
+			</main>
+		</div>
 	);
 };
 
