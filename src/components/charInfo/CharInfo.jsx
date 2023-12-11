@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useMarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
@@ -24,6 +25,7 @@ const CharInfo = props => {
 		clearError();
 
 		getCharacter(charId).then(onCharLoaded);
+		console.log(charId);
 	};
 
 	const onCharLoaded = char => {
@@ -83,14 +85,16 @@ const View = ({ char }) => {
 			<ul className='char__comics-list'>
 				{comics.length > 0 ? null : 'There is no comics with this character'}
 				{comics.map((item, i) => {
+					const comicId = item.resourceURI.slice(43);
 					if (i > 9) return;
 					return (
-						<li
+						<NavLink
+							to={`/comics/${comicId}`}
 							key={i}
 							className='char__comics-item'
 						>
 							{item.name}
-						</li>
+						</NavLink>
 					);
 				})}
 			</ul>
