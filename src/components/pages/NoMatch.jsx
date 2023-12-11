@@ -1,11 +1,13 @@
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import surprise from '../../assets/img/spiderman_on_toilet.png';
 import { useState } from 'react';
 
 function NoMatch() {
 	const [hover, setHover] = useState(false);
+	const navigate = useNavigate();
 
-	const style = {
+	const linkStyle = {
+		cursor: 'pointer',
 		fontSize: '18px',
 		marginTop: '10px',
 		color: hover ? 'rgba(255,0,0,0.6)' : 'red',
@@ -16,14 +18,14 @@ function NoMatch() {
 			<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
 				<h2 style={{ fontSize: '70px', userSelect: 'none' }}>404</h2>
 				<p style={{ fontSize: '18px', marginTop: '10px' }}>Oops, looks like you went to the wrong link</p>
-				<NavLink
+				<a
 					onMouseEnter={() => setHover(true)}
 					onMouseLeave={() => setHover(false)}
-					style={style}
-					to='/'
+					style={linkStyle}
+					onClick={() => navigate(-1)}
 				>
-					Go back to the main page
-				</NavLink>
+					Return to previous page
+				</a>
 			</div>
 			<img
 				src={surprise}
