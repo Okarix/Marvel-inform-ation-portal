@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
-import AppHeader from '../appHeader/AppHeader';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import AppHeader from '../appHeader/AppHeader';
 import Spinner from '../spinner/Spinner.jsx';
 
 const NoMatch = lazy(() => import('../pages/NoMatch.jsx'));
@@ -18,28 +19,36 @@ const App = () => {
 				const regex = new RegExp(`^${path.replace(/:[^\s/]+/g, '([\\w-]+)')}$`);
 				return location.pathname.match(regex);
 			}) && <AppHeader />}
-			<main style={{ position: 'relative' }}>
-				<Suspense fallback={<Spinner />}>
-					<Routes>
-						<Route
-							path='/'
-							element={<MainPage />}
-						/>
-						<Route
-							path='/comics'
-							element={<ComicsPage />}
-						/>
-						<Route
-							path='/comics/:comicId'
-							element={<SingleComicsPage />}
-						/>
-						<Route
-							path='*'
-							element={<NoMatch />}
-						/>
-					</Routes>
-				</Suspense>
-			</main>
+			<TransitionGroup>
+				<CSSTransition
+					key={location.key}
+					classNames='app'
+					timeout={300}
+				>
+					<main style={{ position: 'relative' }}>
+						<Suspense fallback={<Spinner />}>
+							<Routes>
+								<Route
+									path='/'
+									element={<MainPage />}
+								/>
+								<Route
+									path='/comics'
+									element={<ComicsPage />}
+								/>
+								<Route
+									path='/comics/:comicId'
+									element={<SingleComicsPage />}
+								/>
+								<Route
+									path='*'
+									element={<NoMatch />}
+								/>
+							</Routes>
+						</Suspense>
+					</main>
+				</CSSTransition>
+			</TransitionGroup>
 		</div>
 	);
 };
