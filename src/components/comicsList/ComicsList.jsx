@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
-import useMarvelService from '../../services/MarvelService';
-import Spinner from '../spinner/Spinner';
-import ErrorMessage from '../errorMessage/ErrorMessage';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import useMarvelService from '../../services/MarvelService';
+import ErrorMessage from '../errorMessage/ErrorMessage';
+import Spinner from '../spinner/Spinner';
 import './comicsList.scss';
 
 const ComicsList = () => {
@@ -37,23 +38,33 @@ const ComicsList = () => {
 	function renderItems(arr) {
 		const items = arr.map((item, i) => {
 			return (
-				<NavLink
-					to={`/comics/${item.id}`}
-					className='comics__item'
+				<CSSTransition
 					key={i}
+					timeout={500}
+					classNames='comics__item'
 				>
-					<img
-						src={item.thumbnail}
-						alt={item.title}
-						className='comics__item-img'
-					/>
-					<div className='comics__item-name'>{item.title}</div>
-					<div className='comics__item-price'>{item.price}</div>
-				</NavLink>
+					<NavLink
+						to={`/comics/${item.id}`}
+						className='comics__item'
+						key={i}
+					>
+						<img
+							src={item.thumbnail}
+							alt={item.title}
+							className='comics__item-img'
+						/>
+						<div className='comics__item-name'>{item.title}</div>
+						<div className='comics__item-price'>{item.price}</div>
+					</NavLink>
+				</CSSTransition>
 			);
 		});
 
-		return <ul className='comics__grid'>{items}</ul>;
+		return (
+			<ul className='comics__grid'>
+				<TransitionGroup component={null}>{items}</TransitionGroup>
+			</ul>
+		);
 	}
 
 	const items = renderItems(comicsList);
