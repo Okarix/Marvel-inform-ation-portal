@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .char {
 	&__form {
 		padding: 25px;
@@ -7,6 +9,7 @@
 		background-color: #fff;
 		z-index: 5;
 		margin-top: 30px;
+		position: relative;
 		&-label {
 			color: #000;
 			font-size: 18px;
@@ -30,6 +33,12 @@
 			&:focus {
 				outline: none;
 			}
+		}
+		&-error {
+			margin-top: 25px;
+			color: $main-color;
+			font-size: 18px;
+			font-weight: 700;
 		}
 	}
 }
