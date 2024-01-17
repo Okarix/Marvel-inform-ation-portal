@@ -7,6 +7,12 @@
 		grid-template-columns: 650px 425px;
 		column-gap: 25px;
 		align-items: start;
+		&-wrapper {
+			display: flex;
+			flex-direction: column;
+			position: sticky;
+			top: 10px;
+		}
 	}
 	&__grid {
 		display: grid;

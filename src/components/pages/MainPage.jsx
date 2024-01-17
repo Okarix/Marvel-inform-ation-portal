@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import ErrorBoundary from '../errorBoundary/ErrorBoundary';
-import RandomChar from '../randomChar/RandomChar';
+import decoration from '../../assets/img/vision.png';
+import CharForm from '../charForm/CharForm';
 import CharInfo from '../charInfo/CharInfo';
 import CharList from '../charList/CharList';
-import decoration from '../../assets/img/vision.png';
+import ErrorBoundary from '../errorBoundary/ErrorBoundary';
+import RandomChar from '../randomChar/RandomChar';
 
 function MainPage() {
 	const [selectedChar, setSelectedChar] = useState(null);
@@ -20,9 +21,14 @@ function MainPage() {
 				<ErrorBoundary>
 					<CharList onCharSelected={onCharSelected} />
 				</ErrorBoundary>
-				<ErrorBoundary>
-					<CharInfo charId={selectedChar} />
-				</ErrorBoundary>
+				<div className='char__content-wrapper'>
+					<ErrorBoundary>
+						<CharInfo charId={selectedChar} />
+					</ErrorBoundary>
+					<ErrorBoundary>
+						<CharForm />
+					</ErrorBoundary>
+				</div>
 			</div>
 			<img
 				src={decoration}
