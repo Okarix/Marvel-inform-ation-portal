@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { NavLink } from 'react-router-dom';
 import * as yup from 'yup';
 import useMarvelService from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -45,9 +46,11 @@ function CharForm() {
 	const results = !char ? null : char.length > 0 ? (
 		<div className='char__form-wrapper'>
 			<div className='char__form-success'>{`There is! Visit ${char[0].name} page?`}</div>
-			<div className='button button__secondary'>
-				<div className='inner'>TO PAGE</div>
-			</div>
+			<NavLink to={`/characters/${char[0].id}`}>
+				<div className='button button__secondary'>
+					<div className='inner'>TO PAGE</div>
+				</div>
+			</NavLink>
 		</div>
 	) : (
 		<div className='char__form-error'> The character was not found. Check the name and try again</div>

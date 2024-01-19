@@ -7,11 +7,13 @@ import Spinner from '../spinner/Spinner.jsx';
 const NoMatch = lazy(() => import('../pages/NoMatch.jsx'));
 const MainPage = lazy(() => import('../pages/MainPage.jsx'));
 const ComicsPage = lazy(() => import('../pages/ComicsPage.jsx'));
-const SingleComicsPage = lazy(() => import('../pages/SingleComicsPage.jsx'));
+const SinglePage = lazy(() => import('../pages/SinglePage.jsx'));
+const SingleComicsPage = lazy(() => import('../pages/SingleComicPage/SingleComicsPage.jsx'));
+const SingleCharPage = lazy(() => import('../pages/SingleCharPage/SingleCharPage.jsx'));
 
 const App = () => {
 	const location = useLocation();
-	const knownPaths = ['/', '/comics', '/comics/:comicId'];
+	const knownPaths = ['/', '/comics', '/comics/:id', '/characters/:id'];
 
 	return (
 		<div className='app'>
@@ -37,8 +39,22 @@ const App = () => {
 									element={<ComicsPage />}
 								/>
 								<Route
-									path='/comics/:comicId'
-									element={<SingleComicsPage />}
+									path='/comics/:id'
+									element={
+										<SinglePage
+											Component={SingleComicsPage}
+											dataType='comic'
+										/>
+									}
+								/>
+								<Route
+									path='/characters/:id'
+									element={
+										<SinglePage
+											Component={SingleCharPage}
+											dataType='character'
+										/>
+									}
 								/>
 								<Route
 									path='*'
