@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import useMarvelService from '../../services/MarvelService';
-import Spinner from '../spinner/Spinner';
-import ErrorMessage from '../errorMessage/ErrorMessage';
+import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import Skeleton from '../../components/skeleton/Skeleton';
+import useMarvelService from '../../services/MarvelService';
+import ErrorMessage from '../errorMessage/ErrorMessage';
+import Spinner from '../spinner/Spinner';
 import './charInfo.scss';
 
 const CharInfo = props => {
@@ -65,12 +65,12 @@ const View = ({ char }) => {
 				<div>
 					<div className='char__info-name'>{name}</div>
 					<div className='char__btns'>
-						<a
-							href={homepage}
+						<NavLink
+							to={`/characters/${char.id}`}
 							className='button button__main'
 						>
 							<div className='inner'>homepage</div>
-						</a>
+						</NavLink>
 						<a
 							href={wiki}
 							className='button button__secondary'

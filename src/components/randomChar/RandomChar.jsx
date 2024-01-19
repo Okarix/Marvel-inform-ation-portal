@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import mjolnir from '../../assets/img/mjolnir.png';
 import useMarvelService from '../../services/MarvelService';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -83,15 +84,15 @@ const View = ({ char }) => {
 				<p className='randomchar__name'>{name}</p>
 				<p className='randomchar__descr'>{description}</p>
 				<div className='randomchar__btns'>
-					<a
-						href={homepage}
+					<NavLink
+						to={`/characters/${char.id}`}
 						className='button button__main'
 					>
 						<div className='inner'>homepage</div>
-					</a>
+					</NavLink>
 					<a
 						href={wiki}
-						className='button button__main'
+						className='button button__secondary'
 					>
 						<div className='inner'>Wiki</div>
 					</a>
