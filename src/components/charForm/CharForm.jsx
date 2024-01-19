@@ -20,7 +20,7 @@ function CharForm() {
 	} = useForm({
 		resolver: yupResolver(schema),
 	});
-	const onSubmit = ({ name }) => getCharacterByName(name);
+	// const onSubmit = ({ name }) => getCharacterByName(name);
 
 	return (
 		<form
@@ -50,7 +50,7 @@ function CharForm() {
 					<div className='inner'>FIND</div>
 				</button>
 			</div>
-			{errors.name?.message && <p className='char__form-error'>{errors.name?.message}</p>}
+			<p className='char__form-error'>{errors.name?.message}</p>
 		</form>
 	);
 }
