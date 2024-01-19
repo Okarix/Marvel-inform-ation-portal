@@ -1,16 +1,19 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import useMarvelService from '../../services/MarvelService';
+import ErrorMessage from '../errorMessage/ErrorMessage';
 import './charform.scss';
 
 const schema = yup
 	.object({
-		name: yup.string().required('This field is required'),
+		charName: yup.string().required('This field is required'),
 	})
 	.required();
 
 function CharForm() {
+	const [char, setChar] = useState(null);
 	const { loading, error, getCharacterByName, clearError } = useMarvelService();
 
 	const {
@@ -20,7 +23,35 @@ function CharForm() {
 	} = useForm({
 		resolver: yupResolver(schema),
 	});
-	// const onSubmit = ({ name }) => getCharacterByName(name);
+
+	const onCharLoaded = char => {
+		setChar(char);
+		console.log(char);
+	};
+
+	const updateChar = charName => {
+		clearError();
+		getCharacterByName(charName).then(onCharLoaded);
+	};
+
+	const onSubmit = ({ charName }) => updateChar(charName);
+
+	const errorMessage = error ? (
+		<div className='char__form-error'>
+			<ErrorMessage />
+		</div>
+	) : null;
+
+	const results = !char ? null : char.length > 0 ? (
+		<div className='char__form-wrapper'>
+			<div className='char__form-success'>{`There is! Visit ${char[0].name} page?`}</div>
+			<div className='button button__secondary'>
+				<div className='inner'>TO PAGE</div>
+			</div>
+		</div>
+	) : (
+		<div className='char__form-error'> The character was not found. Check the name and try again</div>
+	);
 
 	return (
 		<form
@@ -40,7 +71,7 @@ function CharForm() {
 					id='name'
 					name='name'
 					placeholder='Enter name'
-					{...register('name')}
+					{...register('charName')}
 				/>
 
 				<button
@@ -50,7 +81,9 @@ function CharForm() {
 					<div className='inner'>FIND</div>
 				</button>
 			</div>
-			<p className='char__form-error'>{errors.name?.message}</p>
+			{errors.charName?.message && <p className='char__form-error'>{errors.charName?.message}</p>}
+			{errorMessage}
+			{results}
 		</form>
 	);
 }
