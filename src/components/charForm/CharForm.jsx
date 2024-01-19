@@ -1,13 +1,26 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import useMarvelService from '../../services/MarvelService';
 import './charform.scss';
 
+const schema = yup
+	.object({
+		name: yup.string().required('This field is required'),
+	})
+	.required();
+
 function CharForm() {
+	const { loading, error, getCharacterByName, clearError } = useMarvelService();
+
 	const {
 		register,
-		formState: { errors },
 		handleSubmit,
-	} = useForm();
-	const onSubmit = data => console.log(data);
+		formState: { errors },
+	} = useForm({
+		resolver: yupResolver(schema),
+	});
+	const onSubmit = ({ name }) => getCharacterByName(name);
 
 	return (
 		<form
@@ -27,8 +40,7 @@ function CharForm() {
 					id='name'
 					name='name'
 					placeholder='Enter name'
-					{...register('name', { required: true })}
-					aria-invalid={name ? 'true' : 'false'}
+					{...register('name')}
 				/>
 
 				<button
@@ -38,7 +50,7 @@ function CharForm() {
 					<div className='inner'>FIND</div>
 				</button>
 			</div>
-			{errors.name?.type === 'required' && <p className='char__form-error'>This field is required</p>}
+			{errors.name?.message && <p className='char__form-error'>{errors.name?.message}</p>}
 		</form>
 	);
 }
