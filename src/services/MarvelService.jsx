@@ -33,17 +33,10 @@ const useMarvelService = () => {
 	};
 
 	const _transformCharacter = char => {
-		const description = (descr, num) => {
-			if (descr) {
-				return descr.slice(0, num) + '...';
-			} else {
-				return "Sorry, we don't have a description for this character.";
-			}
-		};
 		return {
 			id: char.id,
 			name: char.name,
-			description: description(char.description, 210),
+			description: char.description ? char.description : 'There is no description for this character',
 			thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
 			homepage: char.urls[0].url,
 			wiki: char.urls[1].url,
