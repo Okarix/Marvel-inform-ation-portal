@@ -15,7 +15,7 @@ const schema = yup
 
 function CharForm() {
 	const [char, setChar] = useState(null);
-	const { loading, error, getCharacterByName, clearError } = useMarvelService();
+	const { getCharacterByName, clearError, process, setProcess } = useMarvelService();
 
 	const {
 		register,
@@ -27,21 +27,23 @@ function CharForm() {
 
 	const onCharLoaded = char => {
 		setChar(char);
-		console.log(char);
 	};
 
 	const updateChar = charName => {
 		clearError();
-		getCharacterByName(charName).then(onCharLoaded);
+		getCharacterByName(charName)
+			.then(onCharLoaded)
+			.then(() => setProcess('confirmed'));
 	};
 
 	const onSubmit = ({ charName }) => updateChar(charName);
 
-	const errorMessage = error ? (
-		<div className='char__form-error'>
-			<ErrorMessage />
-		</div>
-	) : null;
+	const errorMessage =
+		process === 'error' ? (
+			<div className='char__form-error'>
+				<ErrorMessage />
+			</div>
+		) : null;
 
 	const results = !char ? null : char.length > 0 ? (
 		<div className='char__form-wrapper'>
