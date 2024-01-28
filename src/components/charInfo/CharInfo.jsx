@@ -67,7 +67,7 @@ const View = ({ data }) => {
 					</div>
 				</div>
 			</div>
-			<div className='char__descr'>{description}</div>
+			<div className='char__descr'>{description.slice(0, 210)}</div>
 			<div className='char__comics'>Comics:</div>
 			<ul className='char__comics-list'>
 				{comics.length > 0 ? null : 'There is no comics with this character'}
